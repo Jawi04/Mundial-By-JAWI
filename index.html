@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== RESET Y VARIABLES (sin cambios) ===== */
+        /* ===== RESET Y VARIABLES ===== */
         *,
         *::before,
         *::after {
@@ -275,7 +275,7 @@
             color: var(--text-primary);
         }
 
-        /* ===== RESTO DE ESTILOS (con ajustes para iOS) ===== */
+        /* ===== RESTO DE ESTILOS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -702,7 +702,7 @@
             font-weight: 400;
         }
 
-        /* ===== ADMIN PANEL (solo visible en modo edición) ===== */
+        /* ===== ADMIN PANEL ===== */
         .admin-panel {
             border-top: 2px solid var(--accent-gold);
             padding-top: 28px;
@@ -904,12 +904,11 @@
             min-height: 1.4em;
         }
 
-        /* Ajustes específicos para iOS */
         .btn, .login-btn, .logout-btn {
             -webkit-touch-callout: none;
         }
         input, select, textarea {
-            font-size: 16px; /* Evita zoom en iOS */
+            font-size: 16px;
         }
     </style>
 </head>
@@ -933,7 +932,9 @@
                     </div>
                     <button class="login-btn" id="loginBtn" style="display: inline-flex;"><i class="fas fa-user-plus"></i> Iniciar sesión</button>
                 </div>
+                <!-- ADMIN-START -->
                 
+                <!-- ADMIN-END -->
             </div>
         </header>
 
@@ -946,7 +947,7 @@
         </div>
 
         <!-- TOAST -->
-        <div id="toast" class="toast" style="border-color: var(--accent-gold);">Partido agregado</div>
+        <div id="toast" class="toast" style="border-color: var(--accent-gold);">Panel admin abierto</div>
 
         <!-- MODAL DE EXPORTACIÓN -->
         <div id="modalExport" class="modal-overlay">
@@ -1127,7 +1128,9 @@
         </section>
 
         <!-- ADMIN PANEL -->
+        <!-- ADMIN-START -->
         
+        <!-- ADMIN-END -->
 
         <!-- FOOTER -->
         <footer class="footer">
@@ -1137,16 +1140,14 @@
     </div>
 
     <!-- SCRIPTS: Los datos se inyectan aquí al exportar -->
-    <script type="application/json" id="baked-data">
-{"baked":true,"partidos":[{"id":1,"local":"España","visitante":"Austria","fecha":"2026-07-02","hora":"15:00","cuotaLocal":1.3,"cuotaEmpate":1.5,"cuotaVisitante":2,"cuotaExacto":3,"enlaceLocal":"https://share.google/2nXJS5b7SQrj9hGM3","enlaceVisitante":"https://share.google/0bEaCVbAFBOveAzxC"},{"id":2,"local":"Portugal","visitante":"Croacia","fecha":"2026-07-02","hora":"19:00","cuotaLocal":1.4,"cuotaEmpate":1.3,"cuotaVisitante":1.5,"cuotaExacto":3,"enlaceLocal":"https://share.google/GDFlwNAKVpSI8k7ip","enlaceVisitante":"https://share.google/i2DR1NYckeDlO9Z4i"},{"id":3,"local":"Suiza","visitante":"Argelia","fecha":"2026-07-02","hora":"23:00","cuotaLocal":1.3,"cuotaEmpate":1.3,"cuotaVisitante":1.5,"cuotaExacto":3,"enlaceLocal":"https://share.google/a3LuTXWLWKVqM8icN","enlaceVisitante":"https://share.google/ZRFVnVmC5Mu0IHf1P"}],"usuarioActual":""}
-</script>
+    
 
     <script>
     (function() {
     'use strict';
 
     // ================================================================
-    // 1. MAPA DE CÓDIGOS DE PAÍS (CORREGIDO: incluye 'Inglaterra')
+    // 1. MAPA DE CÓDIGOS DE PAÍS
     // ================================================================
     const CODIGOS_PAIS = {
         'Afganistán': 'af', 'Albania': 'al', 'Alemania': 'de', 'Andorra': 'ad', 'Angola': 'ao',
@@ -1195,8 +1196,7 @@
     function getCodigoPais(nombre) {
         return CODIGOS_PAIS[nombre] || 'un';
     }
-    // Usamos flagsapi.com en lugar de flagcdn.com (funciona en file:// en iOS)
-    function getFlagUrl(nombre, size = 40) {
+    function getFlagUrl(nombre, size) {
         const code = getCodigoPais(nombre);
         return `https://flagsapi.com/${code.toUpperCase()}/flat/64.png`;
     }
@@ -1339,7 +1339,9 @@
         return partidos.find(p => p.id === parseInt(id));
     }
 
-    function toast(msg, isError = false, duracion = 4000) {
+    function toast(msg, isError, duracion) {
+        isError = isError || false;
+        duracion = duracion || 4000;
         const el = document.getElementById('toast');
         if (!el) return;
         el.textContent = msg;
@@ -1358,13 +1360,15 @@
     }
 
     // ================================================================
-    // 5. LÓGICA DE ESTADO (SOLO "CERRADO")
+    // 5. LÓGICA DE ESTADO (CORREGIDA PARA iOS)
     // ================================================================
     function estaCerrado(partido) {
         if (!partido.fecha || !partido.hora) return false;
-        const fechaHoraPartido = new Date(partido.fecha + 'T' + partido.hora + ':00');
+        const [year, month, day] = partido.fecha.split('-').map(Number);
+        const [hours, minutes] = partido.hora.split(':').map(Number);
+        const fechaPartido = new Date(year, month - 1, day, hours, minutes);
         const ahora = new Date();
-        const limite = new Date(fechaHoraPartido.getTime() + 10 * 60000); // +10 min
+        const limite = new Date(fechaPartido.getTime() + 10 * 60000);
         return ahora >= limite;
     }
 
@@ -1686,69 +1690,69 @@
     }
 
     // ================================================================
-    // 9. EXPORTACIÓN (solo iOS y Android, eliminada PC)
+    // 9. EXPORTACIÓN (UN SOLO BOTÓN)
     // ================================================================
-    function exportarApp(plataforma) {
+    function exportarApp() {
         try {
-            let html = document.documentElement.outerHTML;
+            // Clonamos el documento para no modificar el original
+            const doc = document.cloneNode(true);
+            
+            // Eliminar panel Admin (div#adminPanel)
+            const adminPanel = doc.getElementById('adminPanel');
+            if (adminPanel) adminPanel.remove();
+            
+            // Eliminar botón Admin (btnToggleAdmin)
+            const adminBtn = doc.getElementById('btnToggleAdmin');
+            if (adminBtn) adminBtn.remove();
+            
+            // Eliminar el script de datos baked antiguo
+            const oldBaked = doc.getElementById('baked-data');
+            if (oldBaked) oldBaked.remove();
 
-            // Eliminar secciones ADMIN (comentarios)
-            const AS = '';
-            let safety = 20;
-            while (html.includes(AS) && safety-- > 0) {
-                const s = html.indexOf(AS);
-                const e = html.indexOf(AE, s);
-                if (e === -1) break;
-                html = html.slice(0, s) + html.slice(e + AE.length);
-            }
-
-            // Eliminar el botón Admin
-            const adminBtnRegex = /<button[^>]*id="btnToggleAdmin"[^>]*>.*?<\/button>/i;
-            html = html.replace(adminBtnRegex, '');
-
-            // Añadir DOCTYPE
-            html = '<!DOCTYPE html>\n' + html;
-
-            // Preparar datos baked
+            // Preparar nuevos datos baked
             const datos = {
                 baked: true,
                 partidos: JSON.parse(JSON.stringify(partidos)),
                 usuarioActual: usuarioActual
             };
 
-            // Incrustar datos
-            const scriptTag = '<script type="application/json" id="baked-data">';
-            const scriptClose = '<\/script>';
-            const si = html.indexOf(scriptTag);
-            if (si !== -1) {
-                const afterOpen = si + scriptTag.length;
-                const ei = html.indexOf(scriptClose, afterOpen);
-                if (ei !== -1) {
-                    const before = html.slice(0, si);
-                    const after = html.slice(ei + scriptClose.length);
-                    html = before + scriptTag + '\n' + JSON.stringify(datos) + '\n' + scriptClose + after;
-                }
-            }
+            // Crear nuevo script con datos
+            const newScript = doc.createElement('script');
+            newScript.type = 'application/json';
+            newScript.id = 'baked-data';
+            newScript.textContent = JSON.stringify(datos, null, 2);
+            doc.body.appendChild(newScript);
+
+            // Obtener HTML completo
+            let html = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
 
             // Descargar
             const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            const nombresArchivo = {
-                iOS: 'Mundial 2026 iOS.html',
-                Android: 'Mundial 2026 Android.html'
-            };
-            link.download = nombresArchivo[plataforma] || 'Mundial 2026 by Jawi.html';
+            link.download = 'Mundial2026.html';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+            setTimeout(() => URL.revokeObjectURL(url), 5000);
 
-            mostrarModalExport(`✅ Archivo exportado para ${plataforma}.\nEl archivo se ha descargado correctamente.`);
+            mostrarModalExport('✅ Archivo "Mundial2026.html" exportado correctamente.\n\nGuárdalo en tu dispositivo y ábrelo con tu navegador.\n\nSi la descarga no se inicia, prueba con "Guardar enlace como".');
         } catch (error) {
             console.error('Error en exportación:', error);
             toast('❌ Error al exportar: ' + error.message, true, 6000);
+            // Fallback: abrir nueva ventana con el contenido para guardar manual
+            try {
+                const win = window.open('', '_blank');
+                if (win) {
+                    win.document.write('<!DOCTYPE html>\n' + document.documentElement.outerHTML);
+                    win.document.close();
+                    win.focus();
+                    toast('⚠️ No se pudo descargar automáticamente. Se abrió una nueva ventana; usa "Guardar como" desde el menú del navegador.', true, 8000);
+                }
+            } catch (e) {
+                toast('❌ Error crítico: ' + e.message, true, 6000);
+            }
         }
     }
 
@@ -2016,12 +2020,11 @@
             });
         }
 
-        // --- Exportación (solo iOS y Android) ---
-        const exportIOS = document.getElementById('exportIOS');
-        if (exportIOS) exportIOS.addEventListener('click', () => exportarApp('iOS'));
-
-        const exportAndroid = document.getElementById('exportAndroid');
-        if (exportAndroid) exportAndroid.addEventListener('click', () => exportarApp('Android'));
+        // --- Exportación universal ---
+        const exportUniversal = document.getElementById('exportUniversal');
+        if (exportUniversal) {
+            exportUniversal.addEventListener('click', exportarApp);
+        }
 
         // --- Reset all data ---
         const resetAllData = document.getElementById('resetAllData');
@@ -2080,9 +2083,7 @@
         if (adminPanel) adminPanel.style.display = 'none';
         adminAbierto = false;
 
-        // ============================================================
-        // ACTUALIZACIÓN AUTOMÁTICA CADA 30 SEGUNDOS
-        // ============================================================
+        // --- Actualización automática cada 30 segundos ---
         setInterval(() => {
             renderAll();
         }, 30000);
@@ -2107,8 +2108,52 @@
     renderAll();
     inicializarEventos();
 
-    console.log('✅ Club Mundial PRO — Eliminado "Finalizado", solo "Próximo" y "Cerrado". Banderas con flagsapi.com para iOS.');
+    console.log('✅ FINAL.html corregido — exportación única, partidos cerrados con fecha local, sin errores en iOS.');
     })();
     </script>
 
-</body></html>
+<script type="application/json" id="baked-data">{
+  "baked": true,
+  "partidos": [
+    {
+      "id": 1,
+      "local": "España",
+      "visitante": "Austria",
+      "fecha": "2026-07-02",
+      "hora": "15:00",
+      "cuotaLocal": 1.3,
+      "cuotaEmpate": 1.5,
+      "cuotaVisitante": 2,
+      "cuotaExacto": 3,
+      "enlaceLocal": "https://share.google/2nXJS5b7SQrj9hGM3",
+      "enlaceVisitante": "https://share.google/0bEaCVbAFBOveAzxC"
+    },
+    {
+      "id": 2,
+      "local": "Portugal",
+      "visitante": "Croacia",
+      "fecha": "2026-07-02",
+      "hora": "19:00",
+      "cuotaLocal": 1.4,
+      "cuotaEmpate": 1.3,
+      "cuotaVisitante": 1.5,
+      "cuotaExacto": 3,
+      "enlaceLocal": "https://share.google/GDFlwNAKVpSI8k7ip",
+      "enlaceVisitante": "https://share.google/i2DR1NYckeDlO9Z4i"
+    },
+    {
+      "id": 3,
+      "local": "Suiza",
+      "visitante": "Argelia",
+      "fecha": "2026-07-02",
+      "hora": "23:00",
+      "cuotaLocal": 1.3,
+      "cuotaEmpate": 1.3,
+      "cuotaVisitante": 1.5,
+      "cuotaExacto": 3,
+      "enlaceLocal": "https://share.google/a3LuTXWLWKVqM8icN",
+      "enlaceVisitante": "https://share.google/ZRFVnVmC5Mu0IHf1P"
+    }
+  ],
+  "usuarioActual": ""
+}</script></body></html>
