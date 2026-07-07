@@ -1,0 +1,2057 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Mundial 2026 · By JAWI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== RESET Y VARIABLES (sin cambios) ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-primary: #0a0f1e;
+            --bg-secondary: #10182f;
+            --bg-card: #16203f;
+            --bg-card-hover: #1c2a4f;
+            --bg-input: #1f3157;
+            --border-color: #2e4a7a;
+            --text-primary: #f0f5ff;
+            --text-secondary: #8aa3c9;
+            --accent-gold: #d4a546;
+            --accent-gold-light: #f0d080;
+            --accent-blue: #3b7bff;
+            --accent-blue-dark: #1a4db3;
+            --accent-red: #e55353;
+            --accent-green: #3bb87a;
+            --accent-yellow: #f5b342;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            --radius: 16px;
+            --radius-sm: 12px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background-image: radial-gradient(ellipse at 20% 20%, rgba(42, 80, 160, 0.12) 0%, transparent 70%);
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-gold); border-radius: 10px; }
+
+        .app-container {
+            max-width: 1280px;
+            width: 100%;
+            background: rgba(10, 15, 30, 0.78);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 28px 28px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .app-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg at 50% 50%, transparent 0%, rgba(212, 165, 70, 0.035) 25%, transparent 50%);
+            pointer-events: none;
+            animation: rotateGlow 60s linear infinite;
+        }
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 2;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 18px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header h1 {
+            font-weight: 800;
+            font-size: 1.9rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-sub {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            letter-spacing: 1.8px;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== SISTEMA DE USUARIO ===== */
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-input);
+            padding: 5px 12px 5px 10px;
+            border-radius: 40px;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .user-info i {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+        }
+        .logout-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+            font-family: var(--font);
+        }
+        .logout-btn:hover {
+            background: rgba(229, 83, 83, 0.15);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+        .login-btn {
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            border-radius: 40px;
+            padding: 6px 20px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            font-size: 0.86rem;
+        }
+        .login-btn:hover {
+            background: var(--accent-gold);
+            color: #0b1424;
+        }
+
+        /* ===== MODAL DE LOGIN ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            animation: fadeSlideUp 0.3s ease;
+        }
+        .modal-overlay.visible {
+            display: flex;
+        }
+        .modal-box {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-gold);
+            border-radius: var(--radius);
+            padding: 32px 36px;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: var(--shadow);
+        }
+        .modal-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: var(--accent-gold-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .modal-box .form-group {
+            margin-bottom: 16px;
+        }
+        .modal-box .form-group label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .modal-box .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: var(--font);
+            transition: var(--transition);
+            outline: none;
+        }
+        .modal-box .form-control:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px rgba(212, 165, 70, 0.12);
+        }
+        .modal-box .form-control::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .modal-actions .btn {
+            flex: 1;
+        }
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .btn-cancel:hover {
+            background: var(--bg-input);
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+
+        /* ===== RESTO DE ESTILOS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 24px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            text-decoration: none;
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.04);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .btn:hover::after { opacity: 1; }
+        .btn:active { transform: scale(0.97); }
+        .btn-primary {
+            background: var(--accent-blue);
+            color: #fff;
+        }
+        .btn-primary:active { background: var(--accent-blue-dark); }
+        .btn-gold {
+            background: var(--accent-gold);
+            color: #0b1424;
+        }
+        .btn-gold:active { background: #c4953a; }
+        .btn-success {
+            background: var(--accent-green);
+            color: #fff;
+        }
+        .btn-success:active { background: #2ea86a; }
+        .btn-danger {
+            background: var(--accent-red);
+            color: #fff;
+        }
+        .btn-danger:active { background: #cc4444; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .btn-outline:active {
+            background: var(--bg-input);
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 0.75rem;
+        }
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 24px 26px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            animation: fadeSlideUp 0.4s ease forwards;
+        }
+        .section:hover {
+            border-color: rgba(212, 165, 70, 0.2);
+            box-shadow: 0 6px 28px rgba(0, 0, 0, 0.25);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .section-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.2px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-sub {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+        @media (max-width: 700px) {
+            .grid-2,
+            .grid-3 { grid-template-columns: 1fr; }
+        }
+
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: var(--font);
+            transition: var(--transition);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .form-control:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px rgba(212, 165, 70, 0.12);
+        }
+        .form-control::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238aa3c9' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+        .form-control-sm {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+
+        .flex {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .flex-between { justify-content: space-between; }
+        .flex-center { justify-content: center; }
+        .gap-8 { gap: 8px; }
+        .gap-16 { gap: 16px; }
+        .mt-8 { margin-top: 8px; }
+        .mt-16 { margin-top: 16px; }
+        .mt-24 { margin-top: 24px; }
+        .mb-8 { margin-bottom: 8px; }
+        .w-full { width: 100%; }
+        .text-center { text-align: center; }
+
+        .empty-state {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            opacity: 0.6;
+            font-style: italic;
+        }
+
+        .match-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .match-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212, 165, 70, 0.03), transparent 60%);
+            pointer-events: none;
+        }
+        .match-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+        }
+        .match-card .match-teams {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .match-card .team-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1 1 0;
+            min-width: 80px;
+        }
+        .match-card .team-flag {
+            width: 80px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            transition: var(--transition);
+            background: var(--bg-input);
+        }
+        .match-card:hover .team-flag { transform: scale(1.04); }
+        .match-card .team-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: -0.2px;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .match-card .match-vs {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(212, 165, 70, 0.2);
+            flex-shrink: 0;
+            padding: 0 8px;
+        }
+        .match-card .match-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding-top: 8px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4px;
+        }
+        .match-card .match-meta .status {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 2px 14px;
+            border-radius: 40px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            font-size: 0.65rem;
+        }
+        .match-card .match-meta .status.playing {
+            background: rgba(59, 184, 122, 0.15);
+            color: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+        .match-card .match-meta .status.closed {
+            background: rgba(229, 83, 83, 0.20);
+            color: #ff7777;
+            border-color: #ff7777;
+        }
+        .match-card .match-meta .status.upcoming {
+            background: rgba(245, 179, 66, 0.12);
+            color: var(--accent-yellow);
+            border-color: var(--accent-yellow);
+        }
+        .match-card .match-meta .date-time {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .match-card .match-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .match-card .match-links .btn-sm {
+            font-size: 0.7rem;
+            padding: 4px 14px;
+        }
+        .match-card .match-odds {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: var(--bg-input);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid var(--border-color);
+        }
+        .match-card .match-odds .odd-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .match-card .match-odds .odd-item .odd-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .match-card .match-odds .odd-item .odd-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent-gold-light);
+        }
+
+        .day-group { margin-bottom: 28px; }
+        .day-group .day-header {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-gold);
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent-gold);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .day-group .day-header span {
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+        }
+
+        .bet-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .bet-card:hover { border-color: rgba(212, 165, 70, 0.25); }
+        .bet-card .bet-odds {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            background: var(--bg-input);
+            border-radius: var(--radius-sm);
+            padding: 14px 20px;
+            margin-top: 14px;
+            border: 1px solid var(--border-color);
+        }
+        .bet-card .bet-odds .odd-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .bet-card .bet-odds .odd-item .odd-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+        .bet-card .bet-odds .odd-item .odd-value {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--accent-gold-light);
+        }
+        .bet-card .bet-odds .odd-item .odd-value.green {
+            color: var(--accent-green);
+        }
+
+        .profit-box {
+            background: rgba(212, 165, 70, 0.06);
+            border: 1px solid rgba(212, 165, 70, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 14px 20px;
+            display: none;
+            margin-top: 14px;
+            transition: var(--transition);
+            animation: fadeSlideUp 0.3s ease;
+        }
+        .profit-box.visible {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 24px;
+            justify-content: space-between;
+        }
+        .profit-box .label {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .profit-box .value {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--accent-gold-light);
+        }
+        .profit-box .value span {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* ===== ADMIN PANEL ===== */
+        .admin-panel {
+            border-top: 2px solid var(--accent-gold);
+            padding-top: 28px;
+            margin-top: 12px;
+            display: none;
+            animation: fadeSlideUp 0.4s ease;
+        }
+        .admin-panel .section { border-color: rgba(212, 165, 70, 0.12); }
+        .admin-table .form-control {
+            font-size: 0.8rem;
+            padding: 6px 8px;
+            background: var(--bg-input);
+        }
+        .admin-table td {
+            padding: 6px 4px;
+            vertical-align: middle;
+        }
+        .admin-table .btn {
+            padding: 4px 10px;
+            font-size: 0.7rem;
+        }
+        .admin-image-preview {
+            width: 40px;
+            height: 28px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+        .export-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+        .export-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .export-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+        .export-card h4 {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        .export-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 2;
+        }
+        .footer a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer a:active { opacity: 0.6; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            padding: 14px 32px;
+            border-radius: 40px;
+            border: 1px solid var(--accent-gold);
+            box-shadow: var(--shadow);
+            font-weight: 500;
+            font-size: 0.9rem;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.35s ease;
+            pointer-events: none;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+
+        .flag-preview {
+            display: inline-block;
+            width: 28px;
+            height: 20px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .admin-flag-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .admin-flag-selector input {
+            flex: 1;
+        }
+
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(14px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            0% { transform: scale(0.96); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-fade { animation: fadeSlideUp 0.35s ease forwards; }
+
+        @media (max-width: 700px) {
+            .match-card .team-flag {
+                width: 60px;
+                height: 40px;
+            }
+            .match-card .team-name { font-size: 1rem; }
+            .match-card .match-vs { font-size: 1.6rem; }
+            .match-card { padding: 20px 16px; }
+            .btn { padding: 12px 20px; font-size: 1rem; }
+        }
+        @media (max-width: 500px) {
+            .app-container { padding: 14px 12px; border-radius: 28px; }
+            .header h1 { font-size: 1.3rem; }
+            .header-sub { font-size: 0.6rem; }
+            .header-right .form-control { min-width: 100px; font-size: 0.8rem; }
+            .section { padding: 16px 14px; }
+            .bet-card { padding: 16px; }
+            .match-card .team-flag {
+                width: 48px;
+                height: 32px;
+            }
+            .match-card .team-name { font-size: 0.9rem; }
+            .match-card .match-vs { font-size: 1.4rem; }
+            .match-card .match-meta { font-size: 0.7rem; gap: 12px; }
+            .profit-box {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                gap: 12px;
+            }
+        }
+        @media (max-width: 400px) {
+            .header h1 { font-size: 1.1rem; }
+            .btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            .btn-sm {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+            .match-card .team-flag {
+                width: 40px;
+                height: 28px;
+            }
+            .match-card .team-name { font-size: 0.8rem; }
+            .match-card .match-vs { font-size: 1.2rem; }
+        }
+        @supports (-webkit-touch-callout: none) {
+            .app-container { padding-bottom: 40px; }
+            .toast { bottom: 40px; }
+        }
+        @media screen and (max-width: 480px) and (orientation: portrait) {
+            .match-card .match-teams { flex-direction: row; }
+        }
+
+        .privacy-notice .text strong {
+            color: var(--accent-gold-light);
+        }
+        .marcador-desc {
+            font-size: 0.8rem;
+            color: var(--accent-gold-light);
+            font-weight: 500;
+            margin-top: 4px;
+            min-height: 1.4em;
+        }
+
+        .btn, .login-btn, .logout-btn {
+            -webkit-touch-callout: none;
+        }
+        input, select, textarea {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPkAAAHzCAMAAADVfUtwAAABjGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSfvu78nIGlkPSdXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQnPz4KPHg6eG1wbWV0YSB4bWxuczp4PSdhZG9iZTpuczptZXRhLycgeDp4bXB0az0nSW1hZ2U6OkV4aWZUb29sIDEyLjk4Jz4KPHJkZjpSREYgeG1sbnM6cmRmPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjJz4KCiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0nJwogIHhtbG5zOnBkZj0naHR0cDovL25zLmFkb2JlLmNvbS9wZGYvMS4zLyc+CiAgPHBkZjpQcm9kdWNlcj5PbmxpbmUtQ29udmVydDwvcGRmOlByb2R1Y2VyPgogPC9yZGY6RGVzY3JpcHRpb24+CjwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cjw/eHBhY2tldCBlbmQ9J3InPz65oUswAAAACXBIWXMAAAAnAAAAJwEqCZFPAAAC/VBMVEVHcEz+/v7///////7+/v6QdUX+/v7//v7///////7///7///////////////+Lajr///////////////////////7///////////////////////7///69onH//////////////////////////////////////////////////v7////////////////////////////////////////////////////////+/v7Lyserm3r///////////7///v//v/9/////v79//3///X+/f3//u3//PX8+/v/+eD79+/78uT7883x7uf+7sLy6t3059Dy6b/55bXv49Hg4+Pv38Dy36zz2qDo1rLV19Pv1Zfv0Irmz6DnzI3ay63gyJfpyH/hxonhwnvZwo7bv4XQv6DivXHZu3i7vLvPuYrbuGrTt3rZtHPYsWXQs23NsH3Qrm3Or2K+r4vUq2GvrazGqXXMqGjLqlzOpVrGpV63pIXEoGXIoVW5o3CioqK+nlrEm1nFnE+4m2rAmUy5mFe/lU67lkWwlGK3klWVlpW6kkS6j02xkE2ekm+3jUOx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" alt="Logo" class="logo-img" style="background:transparent; object-fit:contain; border-radius:0; height:6rem; width:6rem; display:block;">
+                <div>
+                    <h1>MUNDIAL 2026</h1>
+                    <div class="header-sub">Apuestas confiables</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-area" id="userArea">
+                    <div class="user-info" id="userInfo" style="display:none;">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="userNameSpan"></span>
+                        <button class="logout-btn" id="logoutBtn" title="Cerrar sesión"><i class="fas fa-times"></i></button>
+                    </div>
+                    <button class="login-btn" id="loginBtn" style="display: inline-flex;"><i class="fas fa-user-plus"></i> Iniciar sesión</button>
+                </div>
+                <!-- ADMIN-START -->
+                
+                <!-- ADMIN-END -->
+            </div>
+        </header>
+
+        <!-- PRIVACY NOTICE -->
+        <div class="privacy-notice">
+            <span class="text">
+                <strong>Los datos se guardan únicamente en tu navegador.</strong>
+                El nombre del usuario no se envía a servidores externos.
+            </span>
+        </div>
+
+        <!-- TOAST -->
+        <div id="toast" class="toast" style="border-color: var(--accent-gold);">Partido agregado</div>
+
+        <!-- MODAL DE EXPORTACIÓN -->
+        <div id="modalExport" class="modal-overlay">
+            <div class="modal-box">
+                <h3>✅ Exportación completada</h3>
+                <p id="modalExportText">✅ Archivo "Mundial2026.html" exportado correctamente.
+
+Incluye todos los partidos actuales y se puede compartir.
+
+Si la descarga no se inicia, prueba con "Guardar enlace como".</p>
+                <button class="btn btn-primary" id="modalExportClose">Aceptar</button>
+            </div>
+        </div>
+
+        <!-- MODAL DE LOGIN -->
+        <div id="userModal" class="modal-overlay">
+            <div class="modal-box">
+                <h3><i class="fas fa-id-card"></i> Identificación</h3>
+                <p>Ingresa tu nombre para participar en las apuestas.</p>
+                <div class="form-group">
+                    <label>Nombre completo</label>
+                    <input type="text" id="fullName" class="form-control" placeholder="Ej: Carlos López">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-cancel" id="cancelUserModal">Cancelar</button>
+                    <button class="btn btn-primary" id="saveUserBtn"><i class="fas fa-check"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PARTIDOS -->
+        <section class="section" id="seccionPartidos">
+            <div class="section-header">
+                <div class="section-title">Próximos encuentros</div>
+                <span class="section-sub">Mundial 2026</span>
+            </div>
+            <div id="listaPartidosCards"><div class="day-group">
+                    <div class="day-header">MARTES, 7 DE JULIO DE 2026 <span>2 partidos</span></div><div class="match-card">
+                        <div class="match-teams">
+                            <div class="team-block">
+                                <img src="https://flagsapi.com/AR/flat/64.png" alt="Argentina" class="team-flag" loading="lazy">
+                                <span class="team-name">Argentina</span>
+                                <a href="https://share.google/Az9ygJkWrxWDsuxpV" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Saber más</a>
+                            </div>
+                            <div class="match-vs">VS</div>
+                            <div class="team-block">
+                                <img src="https://flagsapi.com/EG/flat/64.png" alt="Egipto" class="team-flag" loading="lazy">
+                                <span class="team-name">Egipto</span>
+                                <a href="https://share.google/8iFRWIgtcoJZla8TR" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Saber más</a>
+                            </div>
+                        </div>
+                        <div class="match-meta">
+                            <span class="status closed">Cerrado</span>
+                            <span class="date-time">Fecha: 2026-07-07 · Hora: 12:00</span>
+                            <div class="match-odds">
+                                <span class="odd-item"><span class="odd-label">Equipo 1</span><span class="odd-value">1.30</span></span>
+                                <span class="odd-item"><span class="odd-label">Empate</span><span class="odd-value">1.40</span></span>
+                                <span class="odd-item"><span class="odd-label">Equipo 2</span><span class="odd-value">2.50</span></span>
+                                <span class="odd-item"><span class="odd-label">Exacto</span><span class="odd-value">3.00</span></span>
+                            </div>
+                        </div>
+                    </div><div class="match-card">
+                        <div class="match-teams">
+                            <div class="team-block">
+                                <img src="https://flagsapi.com/CH/flat/64.png" alt="Suiza" class="team-flag" loading="lazy">
+                                <span class="team-name">Suiza</span>
+                                <a href="https://share.google/58b2kRoXq26whCodx" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Saber más</a>
+                            </div>
+                            <div class="match-vs">VS</div>
+                            <div class="team-block">
+                                <img src="https://flagsapi.com/CO/flat/64.png" alt="Colombia" class="team-flag" loading="lazy">
+                                <span class="team-name">Colombia</span>
+                                <a href="https://share.google/3wttNJRK6vsgQ4pvE" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Saber más</a>
+                            </div>
+                        </div>
+                        <div class="match-meta">
+                            <span class="status upcoming">Próximo</span>
+                            <span class="date-time">Fecha: 2026-07-07 · Hora: 16:00</span>
+                            <div class="match-odds">
+                                <span class="odd-item"><span class="odd-label">Equipo 1</span><span class="odd-value">1.40</span></span>
+                                <span class="odd-item"><span class="odd-label">Empate</span><span class="odd-value">1.30</span></span>
+                                <span class="odd-item"><span class="odd-label">Equipo 2</span><span class="odd-value">1.50</span></span>
+                                <span class="odd-item"><span class="odd-label">Exacto</span><span class="odd-value">3.00</span></span>
+                            </div>
+                        </div>
+                    </div></div></div>
+        </section>
+
+        <!-- NUEVA APUESTA -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title">Nueva apuesta</div>
+                <span class="section-sub">Selecciona partido y tipo</span>
+            </div>
+            <div class="bet-card">
+                <div class="form-group">
+                    <label>Jugador</label>
+                    <span id="usuarioActualDisplay">Sin usuario</span>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Partido</label>
+                        <select id="selectPartido" class="form-control"><option value="1" disabled="">Argentina vs Egipto (2026-07-07) 🔒 Cerrado</option><option value="2">Suiza vs Colombia (2026-07-07)</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de apuesta</label>
+                        <select id="tipoApuesta" class="form-control">
+                <option value="local">Gana Suiza</option>
+                <option value="empate">Empate</option>
+                <option value="visitante">Gana Colombia</option>
+                <option value="exacto">Marcador exacto</option>
+            </select>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Monto en Bs.</label>
+                        <input type="number" id="montoApuesta" class="form-control" value="10" min="1" step="1" max="50">
+                    </div>
+                    <div id="opcionExacto" style="display:none;" class="form-group">
+                        <label>Marcador exacto</label>
+                        <div class="flex gap-8">
+                            <input type="number" id="golesLocal" class="form-control form-control-sm" value="0" min="0" style="width:80px;">
+                            <span style="color:var(--text-secondary);">-</span>
+                            <input type="number" id="golesVisitante" class="form-control form-control-sm" value="0" min="0" style="width:80px;">
+                        </div>
+                        <div id="marcadorDesc" class="marcador-desc"></div>
+                    </div>
+                </div>
+                <div class="bet-odds" id="betOddsContainer">
+                    <div class="odd-item">
+                        <span class="odd-label">Cuota seleccionada</span>
+                        <span class="odd-value" id="cuotaValor">1.40</span>
+                    </div>
+                    <div class="odd-item">
+                        <span class="odd-label">Ganancia potencial</span>
+                        <span class="odd-value green" id="gananciaValor">4.00</span>
+                    </div>
+                    <div class="odd-item">
+                        <span class="odd-label">Total a recibir</span>
+                        <span class="odd-value" id="totalValor">14.00</span>
+                    </div>
+                </div>
+                <div id="profitBox" class="profit-box visible">
+                    <div>
+                        <span class="label">Ganancia potencial</span>
+                        <div class="value" id="gananciaTexto">4.00 (40.00%)</div>
+                    </div>
+                    <div>
+                        <span class="label">Total a recibir</span>
+                        <div class="value" id="totalTexto" style="font-size:1.1rem;">14.00</div>
+                    </div>
+                </div>
+                <button class="btn btn-gold btn-block mt-16" id="btnEnviarApuesta">
+                    Enviar apuesta por WhatsApp
+                </button>
+            </div>
+        </section>
+
+        <!-- ADMIN PANEL -->
+        <!-- ADMIN-START -->
+        
+        <!-- ADMIN-END -->
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <span>Mundial 2026 · by JAWI</span>
+            <span>Datos guardados localmente · <a href="#" id="resetAllData">Restablecer todo</a></span>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS: Los datos se inyectan aquí al exportar -->
+    <script type="application/json" id="baked-data">{
+  "baked": true,
+  "partidos": [
+    {
+      "id": 1,
+      "local": "Argentina",
+      "visitante": "Egipto",
+      "fecha": "2026-07-07",
+      "hora": "12:00",
+      "cuotaLocal": 1.3,
+      "cuotaEmpate": 1.4,
+      "cuotaVisitante": 2.5,
+      "cuotaExacto": 3,
+      "enlaceLocal": "https://share.google/Az9ygJkWrxWDsuxpV",
+      "enlaceVisitante": "https://share.google/8iFRWIgtcoJZla8TR"
+    },
+    {
+      "id": 2,
+      "local": "Suiza",
+      "visitante": "Colombia",
+      "fecha": "2026-07-07",
+      "hora": "16:00",
+      "cuotaLocal": 1.4,
+      "cuotaEmpate": 1.3,
+      "cuotaVisitante": 1.5,
+      "cuotaExacto": 3,
+      "enlaceLocal": "https://share.google/58b2kRoXq26whCodx",
+      "enlaceVisitante": "https://share.google/3wttNJRK6vsgQ4pvE"
+    }
+  ],
+  "usuarioActual": ""
+}</script>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ================================================================
+        // 1. MAPA DE CÓDIGOS DE PAÍS
+        // ================================================================
+        const CODIGOS_PAIS = {
+            'Afganistán': 'af', 'Albania': 'al', 'Alemania': 'de', 'Andorra': 'ad', 'Angola': 'ao',
+            'Antigua y Barbuda': 'ag', 'Arabia Saudita': 'sa', 'Argelia': 'dz', 'Argentina': 'ar',
+            'Armenia': 'am', 'Australia': 'au', 'Austria': 'at', 'Azerbaiyán': 'az', 'Bahamas': 'bs',
+            'Bangladés': 'bd', 'Barbados': 'bb', 'Baréin': 'bh', 'Bélgica': 'be', 'Belice': 'bz',
+            'Benín': 'bj', 'Bielorrusia': 'by', 'Birmania': 'mm', 'Bolivia': 'bo', 'Bosnia y Herzegovina': 'ba',
+            'Botsuana': 'bw', 'Brasil': 'br', 'Brunéi': 'bn', 'Bulgaria': 'bg', 'Burkina Faso': 'bf',
+            'Burundi': 'bi', 'Bután': 'bt', 'Cabo Verde': 'cv', 'Camboya': 'kh', 'Camerún': 'cm',
+            'Canadá': 'ca', 'Catar': 'qa', 'Chad': 'td', 'Chile': 'cl', 'China': 'cn',
+            'Chipre': 'cy', 'Colombia': 'co', 'Comoras': 'km', 'Corea del Norte': 'kp', 'Corea del Sur': 'kr',
+            'Costa de Marfil': 'ci', 'Costa Rica': 'cr', 'Croacia': 'hr', 'Cuba': 'cu', 'Dinamarca': 'dk',
+            'Dominica': 'dm', 'Ecuador': 'ec', 'Egipto': 'eg', 'El Salvador': 'sv', 'Emiratos Árabes Unidos': 'ae',
+            'Eritrea': 'er', 'Eslovaquia': 'sk', 'Eslovenia': 'si', 'España': 'es', 'Estados Unidos': 'us',
+            'Estonia': 'ee', 'Esuatini': 'sz', 'Etiopía': 'et', 'Filipinas': 'ph', 'Finlandia': 'fi',
+            'Fiyi': 'fj', 'Francia': 'fr', 'Gabón': 'ga', 'Gambia': 'gm', 'Georgia': 'ge',
+            'Ghana': 'gh', 'Grecia': 'gr', 'Guatemala': 'gt', 'Guinea': 'gn', 'Guinea Ecuatorial': 'gq',
+            'Guinea-Bisáu': 'gw', 'Guyana': 'gy', 'Haití': 'ht', 'Honduras': 'hn', 'Hungría': 'hu',
+            'India': 'in', 'Indonesia': 'id', 'Irak': 'iq', 'Irán': 'ir', 'Irlanda': 'ie',
+            'Islandia': 'is', 'Israel': 'il', 'Italia': 'it', 'Jamaica': 'jm', 'Japón': 'jp',
+            'Jordania': 'jo', 'Kazajistán': 'kz', 'Kenia': 'ke', 'Kirguistán': 'kg', 'Kiribati': 'ki',
+            'Kuwait': 'kw', 'Laos': 'la', 'Lesoto': 'ls', 'Letonia': 'lv', 'Líbano': 'lb',
+            'Liberia': 'lr', 'Libia': 'ly', 'Liechtenstein': 'li', 'Lituania': 'lt', 'Luxemburgo': 'lu',
+            'Madagascar': 'mg', 'Malasia': 'my', 'Malaui': 'mw', 'Maldivas': 'mv', 'Mali': 'ml',
+            'Malta': 'mt', 'Marruecos': 'ma', 'Mauricio': 'mu', 'Mauritania': 'mr', 'México': 'mx',
+            'Micronesia': 'fm', 'Moldavia': 'md', 'Mónaco': 'mc', 'Mongolia': 'mn', 'Montenegro': 'me',
+            'Mozambique': 'mz', 'Namibia': 'na', 'Nauru': 'nr', 'Nepal': 'np', 'Nicaragua': 'ni',
+            'Níger': 'ne', 'Nigeria': 'ng', 'Noruega': 'no', 'Nueva Zelanda': 'nz', 'Omán': 'om',
+            'Países Bajos': 'nl', 'Pakistán': 'pk', 'Panamá': 'pa', 'Papúa Nueva Guinea': 'pg', 'Paraguay': 'py',
+            'Perú': 'pe', 'Polonia': 'pl', 'Portugal': 'pt', 'Reino Unido': 'gb', 'República Centroafricana': 'cf',
+            'República Checa': 'cz', 'República del Congo': 'cg', 'República Democrática del Congo': 'cd',
+            'República Dominicana': 'do', 'Ruanda': 'rw', 'Rumanía': 'ro', 'Rusia': 'ru', 'Samoa': 'ws',
+            'San Marino': 'sm', 'San Vicente y las Granadinas': 'vc', 'Santa Lucía': 'lc', 'Senegal': 'sn',
+            'Serbia': 'rs', 'Seychelles': 'sc', 'Sierra Leona': 'sl', 'Singapur': 'sg', 'Siria': 'sy',
+            'Somalia': 'so', 'Sri Lanka': 'lk', 'Sudáfrica': 'za', 'Sudán': 'sd', 'Sudán del Sur': 'ss',
+            'Suecia': 'se', 'Suiza': 'ch', 'Surinam': 'sr', 'Tailandia': 'th', 'Taiwán': 'tw',
+            'Tanzania': 'tz', 'Tayikistán': 'tj', 'Timor Oriental': 'tl', 'Togo': 'tg', 'Tonga': 'to',
+            'Trinidad y Tobago': 'tt', 'Túnez': 'tn', 'Turkmenistán': 'tm', 'Turquía': 'tr', 'Tuvalu': 'tv',
+            'Ucrania': 'ua', 'Uganda': 'ug', 'Uruguay': 'uy', 'Uzbekistán': 'uz', 'Vanuatu': 'vu',
+            'Vaticano': 'va', 'Venezuela': 've', 'Vietnam': 'vn', 'Yemen': 'ye', 'Yibuti': 'dj',
+            'Zambia': 'zm', 'Zimbabue': 'zw',
+            'Inglaterra': 'gb','Escocia': 'gb','Curazao': 'cw' 
+        };
+        const PAISES_NOMBRES = Object.keys(CODIGOS_PAIS).sort();
+
+        function getCodigoPais(nombre) {
+            return CODIGOS_PAIS[nombre] || 'un';
+        }
+        function getFlagUrl(nombre) {
+            const code = getCodigoPais(nombre);
+            return `https://flagsapi.com/${code.toUpperCase()}/flat/64.png`;
+        }
+
+        // ================================================================
+        // 2. ESTADO GLOBAL Y DATOS — SIN PARTIDOS POR DEFECTO
+        // ================================================================
+        let partidos = [];
+        let usuarioActual = '';
+        let adminAbierto = false;
+
+        // ================================================================
+        // 3. CARGA DE DATOS (con soporte para baked)
+        // ================================================================
+        function cargarDatos() {
+            const bakedTag = document.getElementById('baked-data');
+            let bakedData = null;
+            if (bakedTag) {
+                try { bakedData = JSON.parse(bakedTag.textContent); } catch (e) {}
+            }
+
+            if (bakedData && bakedData.baked && Array.isArray(bakedData.partidos)) {
+                partidos = bakedData.partidos.map(p => ({ ...p }));
+                if (bakedData.usuarioActual && bakedData.usuarioActual.trim() !== '') {
+                    usuarioActual = bakedData.usuarioActual.trim();
+                    localStorage.setItem('usuarioActual', usuarioActual);
+                }
+                // Asegurar que cada partido tenga id
+                let maxId = Math.max(0, ...partidos.map(p => p.id || 0));
+                partidos.forEach(p => { if (!p.id) p.id = ++maxId; });
+                partidos.sort((a, b) => a.id - b.id);
+                // Guardar en localStorage para que persistan cambios, pero al recargar se volverán a cargar desde baked
+                localStorage.setItem('mundialBetsData', JSON.stringify({ partidos: partidos }));
+                return;
+            }
+
+            // Si no hay baked, intentar cargar de localStorage
+            const stored = localStorage.getItem('mundialBetsData');
+            if (stored) {
+                try {
+                    const data = JSON.parse(stored);
+                    partidos = data.partidos || [];
+                } catch (e) {
+                    partidos = [];
+                }
+            } else {
+                partidos = []; // SIN PARTIDOS POR DEFECTO
+            }
+            try {
+                const storedUser = localStorage.getItem('usuarioActual');
+                usuarioActual = storedUser ? storedUser.trim() : '';
+            } catch (e) {
+                usuarioActual = '';
+            }
+            // Asegurar IDs
+            let maxId = Math.max(0, ...partidos.map(p => p.id || 0));
+            partidos.forEach(p => { if (!p.id) p.id = ++maxId; });
+            partidos.sort((a, b) => a.id - b.id);
+        }
+
+        function guardarDatos() {
+            localStorage.setItem('mundialBetsData', JSON.stringify({ partidos: partidos }));
+        }
+
+        // ================================================================
+        // 4. FUNCIONES AUXILIARES
+        // ================================================================
+        function escapeHTML(str) {
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        function obtenerPartido(id) {
+            return partidos.find(p => p.id === parseInt(id));
+        }
+
+        function toast(msg, isError, duracion) {
+            isError = isError || false;
+            duracion = duracion || 4000;
+            const el = document.getElementById('toast');
+            if (!el) return;
+            el.textContent = msg;
+            el.style.borderColor = isError ? 'var(--accent-red)' : 'var(--accent-gold)';
+            el.classList.add('show');
+            clearTimeout(el._timeout);
+            el._timeout = setTimeout(() => el.classList.remove('show'), duracion);
+        }
+
+        function mostrarModalExport(mensaje) {
+            const modal = document.getElementById('modalExport');
+            const texto = document.getElementById('modalExportText');
+            if (!modal || !texto) return;
+            texto.textContent = mensaje;
+            modal.classList.add('visible');
+        }
+
+        // ================================================================
+        // 5. LÓGICA DE ESTADO (CORREGIDA PARA iOS)
+        // ================================================================
+        function estaCerrado(partido) {
+            if (!partido.fecha || !partido.hora) return false;
+            const [year, month, day] = partido.fecha.split('-').map(Number);
+            const [hours, minutes] = partido.hora.split(':').map(Number);
+            const fechaPartido = new Date(year, month - 1, day, hours, minutes);
+            const ahora = new Date();
+            const limite = new Date(fechaPartido.getTime() + 10 * 60000);
+            return ahora >= limite;
+        }
+
+        // ================================================================
+        // 6. RENDER
+        // ================================================================
+        function renderPartidosSelect() {
+            const sel = document.getElementById('selectPartido');
+            if (!sel) return;
+            const actual = sel.value;
+            sel.innerHTML = '';
+            partidos.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                const cerrado = estaCerrado(p);
+                const label = `${p.local} vs ${p.visitante} (${p.fecha || 'sin fecha'})${cerrado ? ' 🔒 Cerrado' : ''}`;
+                opt.textContent = label;
+                if (cerrado) opt.disabled = true;
+                sel.appendChild(opt);
+            });
+            if (partidos.length > 0) {
+                const currentOption = sel.querySelector(`option[value="${actual}"]`);
+                if (currentOption && !currentOption.disabled) {
+                    sel.value = actual;
+                } else {
+                    const firstEnabled = sel.querySelector('option:not([disabled])');
+                    if (firstEnabled) sel.value = firstEnabled.value;
+                    else sel.value = '';
+                }
+            }
+            actualizarOpcionesApuesta(sel.value);
+        }
+
+        function renderPartidosCards() {
+            const cont = document.getElementById('listaPartidosCards');
+            if (!cont) return;
+            if (!partidos.length) {
+                cont.innerHTML = '<span class="empty-state">No hay partidos configurados</span>';
+                return;
+            }
+
+            const grupos = {};
+            partidos.forEach(p => {
+                const fecha = p.fecha || 'Sin fecha';
+                if (!grupos[fecha]) grupos[fecha] = [];
+                grupos[fecha].push(p);
+            });
+
+            const fechasOrdenadas = Object.keys(grupos).sort((a, b) => {
+                if (a === 'Sin fecha') return 1;
+                if (b === 'Sin fecha') return -1;
+                return a.localeCompare(b);
+            });
+
+            let html = '';
+            fechasOrdenadas.forEach(fecha => {
+                const partidosDia = grupos[fecha];
+                let fechaDisplay = fecha;
+                if (fecha !== 'Sin fecha') {
+                    const parts = fecha.split('-');
+                    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+                    const opciones = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+                    fechaDisplay = d.toLocaleDateString('es-ES', opciones).toUpperCase();
+                }
+                html += `<div class="day-group">
+                    <div class="day-header">${fechaDisplay} <span>${partidosDia.length} partido${partidosDia.length>1?'s':''}</span></div>`;
+
+                partidosDia.forEach(p => {
+                    const flagL = getFlagUrl(p.local);
+                    const flagV = getFlagUrl(p.visitante);
+                    const cerrado = estaCerrado(p);
+                    let statusText = cerrado ? 'Cerrado' : 'Próximo';
+                    let statusClass = cerrado ? 'closed' : 'upcoming';
+
+                    let enlaceL = p.enlaceLocal || '';
+                    let enlaceV = p.enlaceVisitante || '';
+                    if (enlaceL && !/^https?:\/\//i.test(enlaceL)) {
+                        enlaceL = 'https://' + enlaceL;
+                    }
+                    if (enlaceV && !/^https?:\/\//i.test(enlaceV)) {
+                        enlaceV = 'https://' + enlaceV;
+                    }
+
+                    html += `<div class="match-card">
+                        <div class="match-teams">
+                            <div class="team-block">
+                                <img src="${flagL}" alt="${p.local}" class="team-flag" loading="lazy" />
+                                <span class="team-name">${escapeHTML(p.local)}</span>
+                                ${enlaceL ? `<a href="${enlaceL}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Saber más</a>` : ''}
+                            </div>
+                            <div class="match-vs">VS</div>
+                            <div class="team-block">
+                                <img src="${flagV}" alt="${p.visitante}" class="team-flag" loading="lazy" />
+                                <span class="team-name">${escapeHTML(p.visitante)}</span>
+                                ${enlaceV ? `<a href="${enlaceV}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Saber más</a>` : ''}
+                            </div>
+                        </div>
+                        <div class="match-meta">
+                            <span class="status ${statusClass}">${statusText}</span>
+                            <span class="date-time">Fecha: ${p.fecha || '—'} · Hora: ${p.hora || '—'}</span>
+                            <div class="match-odds">
+                                <span class="odd-item"><span class="odd-label">Equipo 1</span><span class="odd-value">${p.cuotaLocal?.toFixed(2) || '—'}</span></span>
+                                <span class="odd-item"><span class="odd-label">Empate</span><span class="odd-value">${p.cuotaEmpate?.toFixed(2) || '—'}</span></span>
+                                <span class="odd-item"><span class="odd-label">Equipo 2</span><span class="odd-value">${p.cuotaVisitante?.toFixed(2) || '—'}</span></span>
+                                ${p.cuotaExacto ? `<span class="odd-item"><span class="odd-label">Exacto</span><span class="odd-value">${p.cuotaExacto.toFixed(2)}</span></span>` : ''}
+                            </div>
+                        </div>
+                    </div>`;
+                });
+
+                html += `</div>`;
+            });
+
+            cont.innerHTML = html;
+        }
+
+        function renderAdminPartidos() {
+            const tbody = document.getElementById('cuerpoAdminPartidos');
+            if (!tbody) return;
+            if (!partidos.length) {
+                tbody.innerHTML = `<tr><td colspan="12" class="empty-state text-center">No hay partidos. Agrega uno.</td></tr>`;
+                return;
+            }
+            let html = '';
+            partidos.forEach(p => {
+                const flagL = getFlagUrl(p.local);
+                const flagV = getFlagUrl(p.visitante);
+                html += `<tr>
+                    <td>${p.id}</td>
+                    <td>
+                        <div class="admin-flag-selector">
+                            <input class="form-control form-control-sm admin-input" type="text" value="${escapeHTML(p.local)}" data-id="${p.id}" data-campo="local" list="paisesList" style="flex:1;min-width:70px;" />
+                            <img src="${flagL}" alt="" class="flag-preview" style="width:20px;height:14px;" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="admin-flag-selector">
+                            <input class="form-control form-control-sm admin-input" type="text" value="${escapeHTML(p.visitante)}" data-id="${p.id}" data-campo="visitante" list="paisesList" style="flex:1;min-width:70px;" />
+                            <img src="${flagV}" alt="" class="flag-preview" style="width:20px;height:14px;" />
+                        </div>
+                    </td>
+                    <td><input class="form-control form-control-sm admin-input" type="date" value="${p.fecha || ''}" data-id="${p.id}" data-campo="fecha" style="width:120px;" /></td>
+                    <td><input class="form-control form-control-sm admin-input" type="time" value="${p.hora || ''}" data-id="${p.id}" data-campo="hora" style="width:100px;" /></td>
+                    <td><input class="form-control form-control-sm admin-input" type="number" step="0.01" min="1.01" value="${p.cuotaLocal?.toFixed(2) || 1.01}" data-id="${p.id}" data-campo="cuotaLocal" style="width:70px;" /></td>
+                    <td><input class="form-control form-control-sm admin-input" type="number" step="0.01" min="1.01" value="${p.cuotaEmpate?.toFixed(2) || 1.01}" data-id="${p.id}" data-campo="cuotaEmpate" style="width:70px;" /></td>
+                    <td><input class="form-control form-control-sm admin-input" type="number" step="0.01" min="1.01" value="${p.cuotaVisitante?.toFixed(2) || 1.01}" data-id="${p.id}" data-campo="cuotaVisitante" style="width:70px;" /></td>
+                    <td><input class="form-control form-control-sm admin-input" type="number" step="0.01" min="1.01" value="${p.cuotaExacto?.toFixed(2) || 1.01}" data-id="${p.id}" data-campo="cuotaExacto" style="width:70px;" /></td>
+                    <td><input class="form-control form-control-sm admin-input" type="text" value="${p.enlaceLocal || ''}" data-id="${p.id}" data-campo="enlaceLocal" style="width:100px;" placeholder="URL" /></td>
+                    <td><input class="form-control form-control-sm admin-input" type="text" value="${p.enlaceVisitante || ''}" data-id="${p.id}" data-campo="enlaceVisitante" style="width:100px;" placeholder="URL" /></td>
+                    <td><button class="btn btn-danger btn-sm btn-eliminar-partido" data-id="${p.id}">Eliminar</button></td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+
+            document.querySelectorAll('.btn-eliminar-partido').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.dataset.id);
+                    if (confirm(`Eliminar partido ID ${id}?`)) {
+                        partidos = partidos.filter(p => p.id !== id);
+                        guardarDatos();
+                        renderAll();
+                        toast('Partido eliminado');
+                    }
+                });
+            });
+        }
+
+        // ================================================================
+        // 7. APUESTAS - LÓGICA
+        // ================================================================
+        function actualizarOpcionesApuesta(partidoId) {
+            const sel = document.getElementById('tipoApuesta');
+            const partido = obtenerPartido(partidoId);
+            if (!sel) return;
+            if (!partido) {
+                sel.innerHTML = '<option value="">Selecciona partido</option>';
+                return;
+            }
+            const local = escapeHTML(partido.local);
+            const visitante = escapeHTML(partido.visitante);
+            sel.innerHTML = `
+                <option value="local">Gana ${local}</option>
+                <option value="empate">Empate</option>
+                <option value="visitante">Gana ${visitante}</option>
+                <option value="exacto">Marcador exacto</option>
+            `;
+            const exacto = document.getElementById('opcionExacto');
+            if (exacto) exacto.style.display = (sel.value === 'exacto') ? 'block' : 'none';
+            actualizarGanancia();
+        }
+
+        function actualizarGanancia() {
+            const partidoId = document.getElementById('selectPartido')?.value;
+            const tipo = document.getElementById('tipoApuesta')?.value;
+            const monto = parseInt(document.getElementById('montoApuesta')?.value) || 0;
+            const box = document.getElementById('profitBox');
+            const gananciaSpan = document.getElementById('gananciaTexto');
+            const totalSpan = document.getElementById('totalTexto');
+            const cuotaSpan = document.getElementById('cuotaValor');
+            const gananciaValor = document.getElementById('gananciaValor');
+            const totalValor = document.getElementById('totalValor');
+            const marcadorDesc = document.getElementById('marcadorDesc');
+
+            if (marcadorDesc) marcadorDesc.textContent = '';
+
+            if (!partidoId || monto <= 0 || !box) {
+                if (box) box.classList.remove('visible');
+                if (cuotaSpan) cuotaSpan.textContent = '-';
+                if (gananciaValor) gananciaValor.textContent = '-';
+                if (totalValor) totalValor.textContent = '-';
+                return;
+            }
+            const partido = obtenerPartido(partidoId);
+            if (!partido) {
+                if (box) box.classList.remove('visible');
+                if (cuotaSpan) cuotaSpan.textContent = '-';
+                if (gananciaValor) gananciaValor.textContent = '-';
+                if (totalValor) totalValor.textContent = '-';
+                return;
+            }
+
+            let cuota = 0;
+            let textoMarcador = '';
+            if (tipo === 'local') cuota = partido.cuotaLocal || 1.01;
+            else if (tipo === 'empate') cuota = partido.cuotaEmpate || 1.01;
+            else if (tipo === 'visitante') cuota = partido.cuotaVisitante || 1.01;
+            else if (tipo === 'exacto') {
+                cuota = partido.cuotaExacto || 1.01;
+                const gL = parseInt(document.getElementById('golesLocal')?.value) || 0;
+                const gV = parseInt(document.getElementById('golesVisitante')?.value) || 0;
+                if (gL > gV) textoMarcador = `a favor de ${partido.local}`;
+                else if (gV > gL) textoMarcador = `a favor de ${partido.visitante}`;
+                else textoMarcador = 'Marcador igualado';
+                if (marcadorDesc) marcadorDesc.textContent = textoMarcador ? `📊 ${textoMarcador}` : '';
+            }
+
+            if (cuota <= 0) {
+                if (box) box.classList.remove('visible');
+                if (cuotaSpan) cuotaSpan.textContent = '-';
+                if (gananciaValor) gananciaValor.textContent = '-';
+                if (totalValor) totalValor.textContent = '-';
+                return;
+            }
+
+            const totalRecibir = monto * cuota;
+            const beneficio = totalRecibir - monto;
+
+            if (cuotaSpan) cuotaSpan.textContent = cuota.toFixed(2);
+            if (gananciaValor) gananciaValor.textContent = `${beneficio.toFixed(2)}`;
+            if (totalValor) totalValor.textContent = totalRecibir.toFixed(2);
+
+            if (gananciaSpan) gananciaSpan.textContent = `${beneficio.toFixed(2)} (${((cuota-1)*100).toFixed(2)}%)`;
+            if (totalSpan) totalSpan.textContent = totalRecibir.toFixed(2);
+            if (box) box.classList.add('visible');
+        }
+
+        function abrirWhatsApp(mensaje) {
+            const encoded = encodeURIComponent(mensaje);
+            const url = `https://wa.me/59169590320?text=${encoded}`;
+            try {
+                const ventana = window.open(url, '_blank');
+                if (!ventana || ventana.closed || typeof ventana.closed === 'undefined') {
+                    toast('No se pudo abrir WhatsApp. Verifica que tengas la app instalada.', true, 5000);
+                }
+            } catch (e) {
+                toast('Error al abrir WhatsApp: ' + e.message, true, 5000);
+            }
+        }
+
+        // ================================================================
+        // 8. SISTEMA DE USUARIO
+        // ================================================================
+        function cargarUsuario() {
+            try {
+                const stored = localStorage.getItem('usuarioActual');
+                usuarioActual = stored ? stored.trim() : '';
+            } catch (e) {
+                usuarioActual = '';
+            }
+            actualizarUIUsuario();
+        }
+
+        function guardarUsuario(nombre) {
+            const limpio = nombre.trim();
+            if (!limpio) {
+                toast('El nombre no puede estar vacío.', true);
+                return false;
+            }
+            usuarioActual = limpio;
+            localStorage.setItem('usuarioActual', usuarioActual);
+            actualizarUIUsuario();
+            return true;
+        }
+
+        function cerrarSesion() {
+            usuarioActual = '';
+            localStorage.removeItem('usuarioActual');
+            actualizarUIUsuario();
+            toast('Sesión cerrada.');
+        }
+
+        function actualizarUIUsuario() {
+            const userInfo = document.getElementById('userInfo');
+            const userNameSpan = document.getElementById('userNameSpan');
+            const loginBtn = document.getElementById('loginBtn');
+            const display = document.getElementById('usuarioActualDisplay');
+
+            if (usuarioActual && usuarioActual.trim() !== '') {
+                if (userInfo) userInfo.style.display = 'flex';
+                if (userNameSpan) userNameSpan.textContent = usuarioActual;
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (display) display.textContent = usuarioActual;
+            } else {
+                if (userInfo) userInfo.style.display = 'none';
+                if (loginBtn) loginBtn.style.display = 'inline-flex';
+                if (display) display.textContent = 'Sin usuario';
+            }
+        }
+
+        // ================================================================
+        // 9. EXPORTACIÓN MEJORADA (USANDO CLONACIÓN DEL DOM)
+        // ================================================================
+        function exportarApp() {
+            try {
+                // 1. Clonar el documento completo
+                const docClone = document.cloneNode(true);
+
+                // 2. Eliminar el panel de administración del clon
+                const adminPanel = docClone.getElementById('adminPanel');
+                if (adminPanel) adminPanel.remove();
+
+                // 3. Eliminar el botón "Admin"
+                const adminBtn = docClone.getElementById('btnToggleAdmin');
+                if (adminBtn) adminBtn.remove();
+
+                // 4. Actualizar el script #baked-data con los datos actuales
+                const datos = {
+                    baked: true,
+                    partidos: JSON.parse(JSON.stringify(partidos)),
+                    usuarioActual: usuarioActual
+                };
+                const script = docClone.getElementById('baked-data');
+                if (script) {
+                    script.textContent = JSON.stringify(datos, null, 2);
+                } else {
+                    // Si no existe (por seguridad), lo creamos
+                    const newScript = docClone.createElement('script');
+                    newScript.type = 'application/json';
+                    newScript.id = 'baked-data';
+                    newScript.textContent = JSON.stringify(datos, null, 2);
+                    docClone.body.appendChild(newScript);
+                }
+
+                // 5. Obtener el HTML del clon
+                const html = '<!DOCTYPE html>\n' + docClone.documentElement.outerHTML;
+
+                // 6. Descargar el archivo
+                const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'Mundial2026.html';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+                mostrarModalExport('✅ Archivo "Mundial2026.html" exportado correctamente.\n\nIncluye todos los partidos actuales y se puede compartir.\n\nSi la descarga no se inicia, prueba con "Guardar enlace como".');
+            } catch (error) {
+                console.error('Error en exportación:', error);
+                toast('❌ Error al exportar: ' + error.message, true, 6000);
+                // Fallback: abrir nueva ventana con el HTML actual
+                try {
+                    const win = window.open('', '_blank');
+                    if (win) {
+                        win.document.write('<!DOCTYPE html>\n' + document.documentElement.outerHTML);
+                        win.document.close();
+                        win.focus();
+                        toast('⚠️ No se pudo descargar automáticamente. Se abrió una nueva ventana; usa "Guardar como" desde el menú del navegador.', true, 8000);
+                    }
+                } catch (e) {
+                    toast('❌ Error crítico: ' + e.message, true, 6000);
+                }
+            }
+        }
+
+        // ================================================================
+        // 10. INICIALIZACIÓN DE EVENTOS
+        // ================================================================
+        function inicializarEventos() {
+            // --- Login / Logout ---
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    const modal = document.getElementById('userModal');
+                    if (modal) {
+                        modal.classList.add('visible');
+                        const fullName = document.getElementById('fullName');
+                        if (fullName) {
+                            fullName.value = usuarioActual || '';
+                            fullName.focus();
+                        }
+                    }
+                });
+            }
+
+            const cancelUserModal = document.getElementById('cancelUserModal');
+            if (cancelUserModal) {
+                cancelUserModal.addEventListener('click', () => {
+                    const modal = document.getElementById('userModal');
+                    if (modal) modal.classList.remove('visible');
+                });
+            }
+
+            const saveUserBtn = document.getElementById('saveUserBtn');
+            if (saveUserBtn) {
+                saveUserBtn.addEventListener('click', () => {
+                    const fullName = document.getElementById('fullName');
+                    if (!fullName) return;
+                    const nombre = fullName.value;
+                    if (guardarUsuario(nombre)) {
+                        const modal = document.getElementById('userModal');
+                        if (modal) modal.classList.remove('visible');
+                        toast(`👋 ¡Bienvenido, ${usuarioActual}!`);
+                    }
+                });
+            }
+
+            const userModal = document.getElementById('userModal');
+            if (userModal) {
+                userModal.addEventListener('click', (e) => {
+                    if (e.target === e.currentTarget) {
+                        userModal.classList.remove('visible');
+                    }
+                });
+            }
+
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    if (confirm(`¿Cerrar sesión de ${usuarioActual}?`)) {
+                        cerrarSesion();
+                    }
+                });
+            }
+
+            // --- Admin toggle ---
+            const btnAdmin = document.getElementById('btnToggleAdmin');
+            if (btnAdmin) {
+                btnAdmin.addEventListener('click', () => {
+                    const panel = document.getElementById('adminPanel');
+                    if (!panel) return;
+                    if (adminAbierto) {
+                        adminAbierto = false;
+                        panel.style.display = 'none';
+                        btnAdmin.textContent = 'Admin';
+                        toast('Panel cerrado');
+                    } else {
+                        adminAbierto = true;
+                        panel.style.display = 'block';
+                        btnAdmin.textContent = 'Cerrar Admin';
+                        renderAdminPartidos();
+                        toast('Panel admin abierto');
+                    }
+                });
+            }
+
+            // --- Apuestas ---
+            const tipoApuesta = document.getElementById('tipoApuesta');
+            if (tipoApuesta) {
+                tipoApuesta.addEventListener('change', function() {
+                    const exacto = document.getElementById('opcionExacto');
+                    if (exacto) exacto.style.display = (this.value === 'exacto') ? 'block' : 'none';
+                    actualizarGanancia();
+                });
+            }
+
+            const selectPartido = document.getElementById('selectPartido');
+            if (selectPartido) {
+                selectPartido.addEventListener('change', function() {
+                    actualizarOpcionesApuesta(this.value);
+                });
+            }
+
+            const montoApuesta = document.getElementById('montoApuesta');
+            if (montoApuesta) montoApuesta.addEventListener('input', actualizarGanancia);
+
+            const golesLocal = document.getElementById('golesLocal');
+            if (golesLocal) golesLocal.addEventListener('input', actualizarGanancia);
+
+            const golesVisitante = document.getElementById('golesVisitante');
+            if (golesVisitante) golesVisitante.addEventListener('input', actualizarGanancia);
+
+            const btnEnviarApuesta = document.getElementById('btnEnviarApuesta');
+            if (btnEnviarApuesta) {
+                btnEnviarApuesta.addEventListener('click', () => {
+                    if (!usuarioActual || usuarioActual.trim() === '') {
+                        toast('Debes iniciar sesión para enviar una apuesta', true);
+                        const modal = document.getElementById('userModal');
+                        if (modal) {
+                            modal.classList.add('visible');
+                            const fullName = document.getElementById('fullName');
+                            if (fullName) fullName.focus();
+                        }
+                        return;
+                    }
+
+                    const partidoId = document.getElementById('selectPartido')?.value;
+                    if (!partidoId) { toast('Selecciona un partido', true); return; }
+                    const monto = parseInt(document.getElementById('montoApuesta')?.value);
+                    if (isNaN(monto) || monto < 1) { toast('Monto inválido', true); return; }
+                    if (monto > 50) { toast('El monto máximo permitido es 50 Bs.', true); return; }
+
+                    const partido = obtenerPartido(partidoId);
+                    if (!partido) { toast('Partido no encontrado', true); return; }
+
+                    if (estaCerrado(partido)) {
+                        toast('Este partido ya está cerrado (pasaron 10 min desde la hora). No se pueden hacer apuestas.', true);
+                        return;
+                    }
+
+                    const tipo = document.getElementById('tipoApuesta')?.value;
+                    let detalle = '';
+                    let cuota = 0;
+                    let textoMarcador = '';
+                    if (tipo === 'local') { detalle = `Gana ${partido.local}`; cuota = partido.cuotaLocal; }
+                    else if (tipo === 'empate') { detalle = 'Empate'; cuota = partido.cuotaEmpate; }
+                    else if (tipo === 'visitante') { detalle = `Gana ${partido.visitante}`; cuota = partido.cuotaVisitante; }
+                    else if (tipo === 'exacto') {
+                        const gL = parseInt(document.getElementById('golesLocal')?.value) || 0;
+                        const gV = parseInt(document.getElementById('golesVisitante')?.value) || 0;
+                        detalle = `${gL} - ${gV}`;
+                        cuota = partido.cuotaExacto;
+                        if (gL > gV) textoMarcador = `a favor de ${partido.local}`;
+                        else if (gV > gL) textoMarcador = `a favor de ${partido.visitante}`;
+                        else textoMarcador = 'Marcador igualado';
+                    }
+
+                    if (!cuota || cuota <= 0) { toast('Cuota no válida', true); return; }
+                    const totalRecibir = monto * cuota;
+                    const beneficio = totalRecibir - monto;
+                    const partidoStr = `${partido.local} vs ${partido.visitante}`;
+
+                    let mensajeWhatsApp =
+                        `*MUNDIAL 2026 - NUEVA APUESTA* \n\n` +
+                        `*Jugador:* ${usuarioActual}\n` +
+                        `*Partido:* ${partidoStr}\n` +
+                        `*Fecha/Hora:* ${partido.fecha || '—'} ${partido.hora ? '· ' + partido.hora : ''}\n` +
+                        `*Apuesta:* ${detalle}` +
+                        (textoMarcador ? ` (${textoMarcador})` : '') +
+                        `\n*Monto en Bs.:* ${monto}\n` +
+                        `*Cuota:* ${cuota.toFixed(2)}\n` +
+                        `*Ganancia potencial:* ${beneficio.toFixed(2)}\n` +
+                        `*Total a recibir:* ${totalRecibir.toFixed(2)}\n\n` +
+                        `_Apuesta registrada, en un momento le mandamos el QR._`;
+
+                    abrirWhatsApp(mensajeWhatsApp);
+                    toast(`Apuesta de ${usuarioActual} enviada a WhatsApp`, false, 3000);
+                });
+            }
+
+            // --- Admin: agregar, guardar, reset ---
+            const btnAgregarPartido = document.getElementById('btnAgregarPartido');
+            if (btnAgregarPartido) {
+                btnAgregarPartido.addEventListener('click', () => {
+                    const local = document.getElementById('adminLocal')?.value.trim();
+                    const visitante = document.getElementById('adminVisitante')?.value.trim();
+                    const fecha = document.getElementById('adminFecha')?.value;
+                    const hora = document.getElementById('adminHora')?.value;
+                    const cuotaLocal = parseFloat(document.getElementById('adminCuotaLocal')?.value) || 1.01;
+                    const cuotaEmpate = parseFloat(document.getElementById('adminCuotaEmpate')?.value) || 1.01;
+                    const cuotaVisitante = parseFloat(document.getElementById('adminCuotaVisitante')?.value) || 1.01;
+                    const cuotaExacto = parseFloat(document.getElementById('adminCuotaExacto')?.value) || 1.01;
+                    const enlaceLocal = document.getElementById('adminEnlaceL')?.value.trim() || '';
+                    const enlaceVisitante = document.getElementById('adminEnlaceV')?.value.trim() || '';
+                    if (!local || !visitante) { toast('Completa equipo 1 y equipo 2', true); return; }
+                    if (cuotaLocal < 1.01 || cuotaEmpate < 1.01 || cuotaVisitante < 1.01 || cuotaExacto < 1.01) {
+                        toast('Las cuotas deben ser >= 1.01', true);
+                        return;
+                    }
+                    const maxId = Math.max(0, ...partidos.map(p => p.id || 0));
+                    partidos.push({
+                        id: maxId + 1,
+                        local,
+                        visitante,
+                        fecha,
+                        hora,
+                        cuotaLocal,
+                        cuotaEmpate,
+                        cuotaVisitante,
+                        cuotaExacto,
+                        enlaceLocal,
+                        enlaceVisitante
+                    });
+                    guardarDatos();
+                    renderAll();
+                    // Limpiar campos
+                    document.getElementById('adminLocal').value = '';
+                    document.getElementById('adminVisitante').value = '';
+                    document.getElementById('adminFecha').value = '';
+                    document.getElementById('adminHora').value = '';
+                    document.getElementById('adminCuotaLocal').value = '1.67';
+                    document.getElementById('adminCuotaEmpate').value = '3.20';
+                    document.getElementById('adminCuotaVisitante').value = '2.50';
+                    document.getElementById('adminCuotaExacto').value = '6.00';
+                    document.getElementById('adminEnlaceL').value = '';
+                    document.getElementById('adminEnlaceV').value = '';
+                    document.getElementById('adminLocalFlag').style.display = 'none';
+                    document.getElementById('adminVisitanteFlag').style.display = 'none';
+                    toast('Partido agregado');
+                });
+            }
+
+            const btnGuardarCambios = document.getElementById('btnGuardarCambios');
+            if (btnGuardarCambios) {
+                btnGuardarCambios.addEventListener('click', () => {
+                    const inputs = document.querySelectorAll('#cuerpoAdminPartidos .admin-input');
+                    inputs.forEach(inp => {
+                        const id = parseInt(inp.dataset.id);
+                        const campo = inp.dataset.campo;
+                        const partido = partidos.find(p => p.id === id);
+                        if (partido) {
+                            let val = inp.value.trim();
+                            if (campo === 'local' || campo === 'visitante' || campo === 'enlaceLocal' || campo === 'enlaceVisitante' || campo === 'fecha' || campo === 'hora') {
+                                partido[campo] = val;
+                            } else if (campo === 'cuotaLocal' || campo === 'cuotaEmpate' || campo === 'cuotaVisitante' || campo === 'cuotaExacto') {
+                                const num = parseFloat(val);
+                                if (!isNaN(num) && num >= 1.01) partido[campo] = num;
+                            }
+                        }
+                    });
+                    guardarDatos();
+                    renderAll();
+                    toast('Cambios guardados');
+                });
+            }
+
+            const btnResetPartidos = document.getElementById('btnResetPartidos');
+            if (btnResetPartidos) {
+                btnResetPartidos.addEventListener('click', () => {
+                    if (!confirm('¿Restablecer partidos? Se eliminarán todos los partidos actuales.')) return;
+                    partidos = [];
+                    guardarDatos();
+                    renderAll();
+                    toast('Partidos restablecidos (vacío)');
+                });
+            }
+
+            // --- Exportación universal ---
+            const exportUniversal = document.getElementById('exportUniversal');
+            if (exportUniversal) {
+                exportUniversal.addEventListener('click', exportarApp);
+            }
+
+            // --- Reset all data ---
+            const resetAllData = document.getElementById('resetAllData');
+            if (resetAllData) {
+                resetAllData.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!confirm('Restablecer TODOS los datos? (partidos, usuario)')) return;
+                    localStorage.removeItem('mundialBetsData');
+                    localStorage.removeItem('usuarioActual');
+                    cargarDatos();
+                    cargarUsuario();
+                    renderAll();
+                    toast('Todos los datos restablecidos');
+                });
+            }
+
+            // --- Modal export close ---
+            const modalExportClose = document.getElementById('modalExportClose');
+            if (modalExportClose) {
+                modalExportClose.addEventListener('click', () => {
+                    const modal = document.getElementById('modalExport');
+                    if (modal) modal.classList.remove('visible');
+                });
+            }
+
+            // --- Previsualización de banderas en admin ---
+            function actualizarPreviewBandera(inputId, imgId) {
+                const input = document.getElementById(inputId);
+                const img = document.getElementById(imgId);
+                if (!input || !img) return;
+                input.addEventListener('input', function() {
+                    const nombre = this.value.trim();
+                    if (nombre && CODIGOS_PAIS[nombre]) {
+                        img.src = getFlagUrl(nombre);
+                        img.style.display = 'inline-block';
+                    } else {
+                        img.style.display = 'none';
+                    }
+                });
+            }
+            actualizarPreviewBandera('adminLocal', 'adminLocalFlag');
+            actualizarPreviewBandera('adminVisitante', 'adminVisitanteFlag');
+
+            // --- Poblar datalist de países ---
+            const datalist = document.getElementById('paisesList');
+            if (datalist) {
+                PAISES_NOMBRES.forEach(n => {
+                    const opt = document.createElement('option');
+                    opt.value = n;
+                    datalist.appendChild(opt);
+                });
+            }
+
+            // --- Ocultar panel admin por defecto ---
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) adminPanel.style.display = 'none';
+            adminAbierto = false;
+
+            // --- Actualización automática cada 30 segundos ---
+            setInterval(() => {
+                renderAll();
+            }, 30000);
+        }
+
+        // ================================================================
+        // 11. RENDER ALL
+        // ================================================================
+        function renderAll() {
+            renderPartidosSelect();
+            renderPartidosCards();
+            if (adminAbierto) renderAdminPartidos();
+            actualizarGanancia();
+            actualizarUIUsuario();
+        }
+
+        // ================================================================
+        // 12. INICIO
+        // ================================================================
+        cargarDatos();
+        cargarUsuario();
+        renderAll();
+        inicializarEventos();
+
+        console.log('✅ FINAL combinado — exportación mediante clonación del DOM, sin partidos por defecto, fecha corregida para iOS.');
+    })();
+    </script>
+
+</body></html>
